@@ -1,8 +1,8 @@
 # PIA autoconnect with "kill switch" and automated port forwarding for Transmission
 
-1. Put everything except the .service file in /usr/bin/pia (or wherever you like, just change the .service file to match)
+1. Put everything except the `.service` file in `/usr/bin/pia` (or wherever you like, just change the `.service` file to match)
 
-2. Put the .service file in the `/lib/systemd/system` directory
+2. Put the `.service` file in the `/lib/systemd/system` directory
 
 3. Edit `wireguard-start.sh` to set up your user account and settings, referring to PIA's original documentation below.
 
