@@ -1,3 +1,19 @@
+# PIA autoconnect with "kill switch" and automated port forwarding for Transmission
+
+1. Put everything except the .service file in /usr/bin/pia (or wherever you like, just change the .service file to match)
+
+2. Put the .service file in the `/lib/systemd/system` directory
+
+3. Edit `wireguard-start.sh` to set up your user account and settings, referring to PIA's original documentation below.
+
+4. Edit `port-forwarding.sh` around line 166-168 to make sure you have the correct port for your Transmission RPC and add auth headers if you have RPC authentication enabled in transmission.
+
+5. Edit `connect_to_wireguard_with_token.sh` around line 137-138 to set up the correct subnet masks for your local IPV4 and IPV6 ranges. **If you get this wrong you will not be able to SSH into your machine.** [This tool](https://mxtoolbox.com/subnetcalculator.aspx) can help you check your CIDR notation.
+
+6. Follow Step 3 of [this guide](https://tecadmin.net/run-shell-script-as-systemd-service/) to install the service
+
+Original README file from the parent repository continues below:
+
 # Manual PIA VPN Connections
 
 This repository contains documentation on how to create native WireGuard and OpenVPN connections, and also on how to enable Port Forwarding in case you require this feature. You will find a lot of information below. However if you prefer quick test, here is the __TL/DR__:
