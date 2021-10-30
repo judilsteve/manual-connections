@@ -134,6 +134,8 @@ echo "
 [Interface]
 Address = $(echo "$wireguard_json" | jq -r '.peer_ip')
 PrivateKey = $privKey
+PostUp  = iptables -I OUTPUT ! -o %i -m mark ! --mark \$(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT && ip6tables -I OUTPUT ! -o %i -m mark ! --mark \$(wg show %i fwmark) -m addrtype ! --dst-type LOCAL ! -d fc00::/7 -j REJECT && iptables -I OUTPUT -d 192.168.178.0/24 -j ACCEPT
+PreDown = iptables -D OUTPUT ! -o %i -m mark ! --mark \$(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT && ip6tables -D OUTPUT ! -o %i -m mark ! --mark \$(wg show %i fwmark) -m addrtype ! --dst-type LOCAL ! -d fc00::/7 -j REJECT && iptables -D OUTPUT -d 192.168.178.0/24 -j ACCEPT
 $dnsSettingForVPN
 [Peer]
 PersistentKeepalive = 25

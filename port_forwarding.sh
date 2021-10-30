@@ -150,20 +150,21 @@ while true; do
     echo -e Refreshed on'\t'${GREEN}$(date)${NC}
     echo -e Expires on'\t'${RED}$(date --date="$expires_at")${NC}
     echo -e "\n${GREEN}This script will need to remain active to use port forwarding, and will refresh every 15 minutes.${NC}\n"
-    
+
     #change transmission port on the fly
 
     CURLOUT=$(curl localhost:9091/transmission/rpc 2>/dev/null)
     REGEX='X-Transmission-Session-Id\: (\w*)'
-     
+
     if [[ $CURLOUT =~ $REGEX ]]; then
         SESSIONID=${BASH_REMATCH[1]}
     else
+        echo -e Unexpected response from transmission: $CURLOUT
         exit 1
     fi
 
     DATA='{"method": "session-set", "arguments": { "peer-port" :'$port' } }' 
-     
+
     curl http://localhost:9091/transmission/rpc -d "$DATA" -H "X-Transmission-Session-Id: $SESSIONID"
 
     # sleep 15 minutes
